@@ -108,7 +108,7 @@ int binaryToPng() {
 		}
 
 		// Complete the image with red pixels
-		while(x < imageSize || y < imageSize) {
+		while(x < imageSize && y < imageSize || y < imageSize) {
 			pngData[4 * imageSize * y + 4 * x + 0] = 255; // R
 			pngData[4 * imageSize * y + 4 * x + 1] = 0;   // G
 			pngData[4 * imageSize * y + 4 * x + 2] = 0;   // B
