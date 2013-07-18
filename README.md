@@ -18,7 +18,7 @@ We construct an unsigned char array with all decrypted binary data of pixels and
 
 ## Usage :
 
-You can download the exe file directly from here : https://github.com/leeroybrun/Bin2PNG/releases/download/v1.0/Bin2PNG.exe
+You can download the exe file directly from here : https://github.com/leeroybrun/Bin2PNG/releases/download/v1.1/Bin2PNG.exe
 
 Or you can build it with Visual Studio or any other C compiler.
 
