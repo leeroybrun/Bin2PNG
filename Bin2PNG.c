@@ -114,10 +114,11 @@ int binaryToPng() {
 			pngData[4 * imageSize * y + 4 * x + 2] = 0;   // B
 			pngData[4 * imageSize * y + 4 * x + 3] = 255; // A
 
-			puts("Complete image");
+			puts("Red pixel");
 
 			x += 1;
 
+			// When reached end of pixels line, go to next one
 			if(x == imageSize) {
 				x = 0;
 				y += 1;
