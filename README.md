@@ -13,7 +13,7 @@ The excess pixels will have a RGB(255, 0, 0) color (red) and will be ignored whe
 
 When decrypting the PNG file to create the corresponding binary file, we take each pixels of the image and get their color.
 If the R & G color are different, we skip this pixel. It is not at grayscale, and so is an excess pixel.
-It it is grayscale, we take the color number for R and then convert it to it's binary representation.
+If it is grayscale, we take the color number for R and then convert it to it's binary representation.
 We construct an unsigned char array with all decrypted binary data of pixels and then save it back to a binary file.
 
 ## Usage :
