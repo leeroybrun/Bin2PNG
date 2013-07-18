@@ -49,7 +49,7 @@ int binaryToPng() {
 	unsigned long fileSize;
 	unsigned char *fileBuff;
 	unsigned char *pngData;
-	int imageSize;
+	unsigned int imageSize;
 	char pixelColorStr[4];
 	int pixelColor;
 	unsigned int i, x, y, error;
@@ -108,7 +108,7 @@ int binaryToPng() {
 		}
 
 		// Complete the image with red pixels
-		while(x != imageSize && y != imageSize) {
+		while(x < imageSize || y < imageSize) {
 			pngData[4 * imageSize * y + 4 * x + 0] = 255; // R
 			pngData[4 * imageSize * y + 4 * x + 1] = 0;   // G
 			pngData[4 * imageSize * y + 4 * x + 2] = 0;   // B
@@ -116,7 +116,12 @@ int binaryToPng() {
 
 			puts("Complete image");
 
-			x++;
+			x += 1;
+
+			if(x == imageSize) {
+				x = 0;
+				y += 1;
+			}
 		}
 
 		// Write PNG file
@@ -169,7 +174,7 @@ int pngToBinary() {
 				printf("%d ", binaryBuff[i]);
 
 				i += 1;
-			// It pixel is not grayscale, it is not valid (usualy a red one used to complete image)
+			// If pixel is not grayscale, it is not valid (usualy a red one used to complete image)
 			} else {
 				printf("NULL ");
 			}
