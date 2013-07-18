@@ -41,8 +41,6 @@ void main(int argc, char *argv[]) {
 		printf("Usage : %s (encrypt|decrypt)", argv[0]);
 		puts("");
 	}
-
-	system("pause");
 }
 
 // Convert a binary file to PNG
