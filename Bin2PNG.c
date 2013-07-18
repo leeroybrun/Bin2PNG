@@ -81,6 +81,8 @@ int binaryToPng() {
 
 		// Read binary file to buffer
 		fread(fileBuff, fileSize, 1, binaryFile);
+
+		puts("Starting conversion to PNG file...");
 		
 		x = 0;
 		y = 0;
@@ -89,7 +91,6 @@ int binaryToPng() {
 			// Get decimal value for this byte, will be the pixel color (convert byte to int)
 			sprintf(pixelColorStr, "%d", fileBuff[i]);
 			sscanf(pixelColorStr, "%d", &pixelColor);
-			printf("%d ", pixelColor);
 
 			// Set pixel data
 			pngData[4 * imageSize * y + 4 * x + 0] = pixelColor; // R
@@ -101,7 +102,6 @@ int binaryToPng() {
 
 			// When reached end of pixels line, go to next one
 			if(x == imageSize) {
-				puts("");
 				x = 0;
 				y += 1;
 			}
@@ -114,8 +114,6 @@ int binaryToPng() {
 			pngData[4 * imageSize * y + 4 * x + 2] = 0;   // B
 			pngData[4 * imageSize * y + 4 * x + 3] = 255; // A
 
-			puts("Red pixel");
-
 			x += 1;
 
 			// When reached end of pixels line, go to next one
@@ -124,6 +122,8 @@ int binaryToPng() {
 				y += 1;
 			}
 		}
+
+		printf("Writing PNG file to : %s\n", PNG_FILE);
 
 		// Write PNG file
 		error = lodepng_encode32_file(PNG_FILE, pngData, imageSize, imageSize);
@@ -164,24 +164,21 @@ int pngToBinary() {
 	// Allocate memory for the binary file buffer
 	binaryBuff = (unsigned char *)malloc(imageSize*imageSize*sizeof(unsigned char));
 
+	puts("Starting conversion to binary file...");
+
 	// Process each pixels, get color number, convert to byte and add to binary array
 	i = 0;
 	for(y = 0; y < imageSize; y++) {
-		for(x = 0; x < imageSize; x++) {
-			// Process pixel only if it is grayscale (R & B have same color)
-			if(pngData[4 * imageSize * y + 4 * x + 0] == pngData[4 * imageSize * y + 4 * x + 1]) {
-				binaryBuff[i] = (int)((pngData[4 * imageSize * y + 4 * x + 0] & 0XFF)); // Convert to binary
+		// Process pixel only if it is grayscale (R & B have same color)
+		for(x = 0; x < imageSize && pngData[4 * imageSize * y + 4 * x + 0] == pngData[4 * imageSize * y + 4 * x + 1]; x++) {
+			//printf("RGBA(%d, %d, %d, %d)\n", pngData[4 * imageSize * y + 4 * x + 0], pngData[4 * imageSize * y + 4 * x + 1], pngData[4 * imageSize * y + 4 * x + 2], pngData[4 * imageSize * y + 4 * x + 3]);
+			binaryBuff[i] = (int)((pngData[4 * imageSize * y + 4 * x + 0] & 0XFF)); // Convert to binary
 
-				printf("%d ", binaryBuff[i]);
-
-				i += 1;
-			// If pixel is not grayscale, it is not valid (usualy a red one used to complete image)
-			} else {
-				printf("NULL ");
-			}
+			i += 1;
 		}
-		puts("");
 	}
+	
+	printf("Writing binary file to : %s\n", BIN_OUT_FILE);
 
 	// Write data to binary file
 	binaryFile = fopen(BIN_OUT_FILE, "wb");
