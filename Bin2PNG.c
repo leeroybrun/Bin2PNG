@@ -71,7 +71,7 @@ int binaryToPng() {
 		fileBuff = (unsigned char *)malloc(fileSize);
 
 		// Get final image size (fileSize
-		imageSize = ceil(sqrt((double) fileSize));
+		imageSize = (int)ceil(sqrt((double) fileSize));
 
 		// Print various informations
 		printf("Size of file : %d bytes\n", fileSize);
@@ -144,7 +144,7 @@ int pngToBinary() {
 	FILE *binaryFile;
 	unsigned char *binaryBuff;
 	unsigned char *pngData;
-	unsigned int imageSize;
+	int imageSize;
 	int i, x, y;
 	unsigned int error;
 
@@ -192,6 +192,8 @@ int pngToBinary() {
 		free(pngData);
 		free(binaryBuff);
 		fclose(binaryFile);
+
+		return 1;
 	}
 }
 
